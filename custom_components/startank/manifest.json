@@ -1,0 +1,18 @@
+{
+  "domain": "startank",
+  "name": "Safiery STAR-Tank",
+  "codeowners": ["@jbergler"],
+  "config_flow": true,
+  "dependencies": ["bluetooth_adapters"],
+  "documentation": "https://github.com/jbergler/hass-startank",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/jbergler/hass-startank/issues",
+  "requirements": [],
+  "version": "v0.0.0",
+  "bluetooth": [
+    {
+      "manufacturer_id": 103,
+      "connectable": false
+    }
+  ]
+}

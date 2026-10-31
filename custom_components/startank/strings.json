@@ -1,0 +1,50 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "description": "Pick a STAR-Tank currently advertising nearby.",
+        "data": {
+          "address": "Device"
+        }
+      },
+      "configure": {
+        "title": "{name}",
+        "description": "Enter the tank's internal geometry so distance can be converted to a liquid level.",
+        "data": {
+          "tank_height_cm": "Tank height (cm)",
+          "dead_zone_cm": "Sensor dead zone (cm)",
+          "full_offset_cm": "Distance from sensor face to full mark (cm)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This STAR-Tank is already set up.",
+      "no_devices_found": "No STAR-Tank advertisements seen. Press the sensor's sync button and try again.",
+      "not_startank": "That advertisement did not match a STAR-Tank payload."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "tank_height_cm": "Tank height (cm)",
+          "dead_zone_cm": "Sensor dead zone (cm)",
+          "full_offset_cm": "Distance from sensor face to full mark (cm)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "distance": { "name": "Distance to liquid" },
+      "level": { "name": "Level" },
+      "level_percent": { "name": "Level" },
+      "rssi": { "name": "Signal strength" }
+    },
+    "binary_sensor": {
+      "low_battery": { "name": "Battery low" },
+      "sync_button": { "name": "Sync button" }
+    }
+  }
+}

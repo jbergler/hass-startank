@@ -1,0 +1,45 @@
+name: Build
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get version
+        id: version
+        uses: home-assistant/actions/helpers/version@master
+
+      - name: Patch manifest and zip
+        run: |
+          sed -i 's/v0.0.0/${{ steps.version.outputs.version }}/' custom_components/startank/manifest.json
+          cd custom_components/startank/
+          zip ../../startank.zip -r ./
+
+      - uses: JasonEtco/upload-to-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: ./startank.zip application/zip
+
+  release-notes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Add contributor thanks and support footer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release view "$TAG" --json body --jq .body > body.md
+          python3 .github/scripts/release_footer.py < body.md > new-body.md
+          gh release edit "$TAG" --notes-file new-body.md

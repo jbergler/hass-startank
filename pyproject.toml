@@ -1,0 +1,99 @@
+[project]
+name = "hass-startank"
+version = "0.1.0"
+requires-python = ">=3.13.2"
+dependencies = [
+    "homeassistant>=2025.12.4,<2026.0",
+]
+
+[tool.ty.environment]
+python-version = "3.13"
+
+[tool.coverage.run]
+source = ["custom_components.startank"]
+omit = ["tests/*"]
+
+[tool.pytest.ini_options]
+log_format = "%(asctime)s.%(msecs)03d %(levelname)-8s %(threadName)s %(name)s:%(filename)s:%(lineno)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--strict-markers"
+filterwarnings = [
+    "error",
+    "ignore::aiohttp.web_exceptions.NotAppKeyWarning",
+]
+
+[tool.ruff]
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "A001", "ASYNC", "B002", "B005", "B007", "B009", "B014", "B015", "B017",
+    "B018", "B023", "B024", "B025", "B026", "B032", "B035", "B904", "B905",
+    "BLE", "C", "COM818", "D", "DTZ003", "DTZ004", "E", "F", "FLY", "FURB",
+    "G", "I", "INP", "ISC", "ICN001", "LOG", "N804", "N805", "N815", "PERF",
+    "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "S102",
+    "S103", "S108", "S306", "S307", "S313", "S314", "S315", "S316", "S317",
+    "S318", "S319", "S601", "S602", "S604", "S608", "S609", "SIM", "SLF",
+    "SLOT", "T100", "T20", "TC", "TID", "TRY", "UP", "W",
+]
+
+ignore = [
+    "D102", "D107", "D202", "D203", "D213", "D406", "D407", "D417",
+    "E501", "E731",
+    "PLC0415", "PLR0911", "PLR0912", "PLR0913", "PLR0917", "PLR0915", "PLR1730",
+    "PLR2004", "PLW0108", "PLW1641", "PLW2901",
+    "PT011", "PT018",
+    "RUF001", "RUF002", "RUF003", "RUF015",
+    "SIM102", "SIM103", "SIM108", "SIM115",
+    "TC001", "TC002", "TC003", "TC006",
+    "TRY003", "TRY400",
+    "UP046", "UP047", "UP049",
+    "W191", "E111", "E114", "E117", "D206", "D212", "D300", "Q", "COM812",
+    "COM819", "ISC001",
+    "PLE0605",
+    "FURB116",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
+voluptuous = "vol"
+"homeassistant.helpers.area_registry" = "ar"
+"homeassistant.helpers.config_validation" = "cv"
+"homeassistant.helpers.device_registry" = "dr"
+"homeassistant.helpers.entity_registry" = "er"
+"homeassistant.helpers.issue_registry" = "ir"
+"homeassistant.util.dt" = "dt_util"
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"async_timeout".msg = "use asyncio.timeout instead"
+"pytz".msg = "use zoneinfo instead"
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 25
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]
+".github/scripts/*" = ["INP001"]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["homeassistant", "tests"]
+forced-separate = ["tests"]
+combine-as-imports = true
+
+[dependency-groups]
+dev = [
+    "pytest-homeassistant-custom-component>=0.13.301,<0.14",
+    "ty>=0.0.61",
+]
